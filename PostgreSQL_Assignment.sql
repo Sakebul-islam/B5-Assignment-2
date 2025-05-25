@@ -104,11 +104,6 @@ FROM sightings;
 
 -- Problem 9: Delete rangers who have never sighted any species.
 DELETE FROM rangers
-WHERE
-    ranger_id IN (
-        SELECT rangers.ranger_id
-        FROM rangers
-            LEFT JOIN sightings ON sightings.ranger_id = rangers.ranger_id
-        WHERE
-            sighting_id IS NULL
-    );
+WHERE ranger_id NOT IN (
+    SELECT DISTINCT ranger_id FROM sightings
+);
